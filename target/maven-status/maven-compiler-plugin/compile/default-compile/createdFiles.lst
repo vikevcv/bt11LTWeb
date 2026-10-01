@@ -6,7 +6,6 @@ vn\edu\hcmute\filter\EncodingFilter_24110240.class
 vn\edu\hcmute\model\UserRole.class
 vn\edu\hcmute\util\EmailUtil_24110240.class
 vn\edu\hcmute\dao\CartDAO_24110240.class
-vn\edu\hcmute\controller\CartController_24110240.class
 vn\edu\hcmute\model\CartItem_24110240.class
 vn\edu\hcmute\controller\SellerHomeController_24110240.class
 vn\edu\hcmute\controller\ProductPublicController_24110240.class

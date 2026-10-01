@@ -61,4 +61,41 @@ public class CartDAO_24110240 {
             em.close();
         }
     }
+
+    public List<Cart> findCartsByUserIdAndStatus(Integer userId, Integer status) {
+        if (userId == null) return List.of();
+        if (status == null) return findCartsByUserId(userId);
+        EntityManager em = JpaUtil_24110240.getEntityManager();
+        try {
+            TypedQuery<Cart> query = em.createQuery(
+                "SELECT DISTINCT c FROM Cart c LEFT JOIN FETCH c.cartItems ci LEFT JOIN FETCH ci.product WHERE c.user.userId = :uid AND c.status = :st ORDER BY c.buyDate DESC",
+                Cart.class);
+            query.setParameter("uid", userId);
+            query.setParameter("st", status);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public java.util.Map<String, Long> countOrdersByStatus(Integer userId) {
+        java.util.Map<String, Long> map = new java.util.HashMap<>();
+        if (userId == null) return map;
+        EntityManager em = JpaUtil_24110240.getEntityManager();
+        try {
+            List<Object[]> results = em.createQuery(
+                "SELECT c.status, COUNT(c) FROM Cart c WHERE c.user.userId = :uid GROUP BY c.status",
+                Object[].class)
+                .setParameter("uid", userId)
+                .getResultList();
+            for (Object[] row : results) {
+                if (row[0] != null) {
+                    map.put(String.valueOf(row[0]), (Long) row[1]);
+                }
+            }
+            return map;
+        } finally {
+            em.close();
+        }
+    }
 }

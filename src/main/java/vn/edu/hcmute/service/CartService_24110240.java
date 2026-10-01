@@ -139,4 +139,12 @@ public class CartService_24110240 {
     public List<Cart> getOrdersByUserId(Integer userId) {
         return cartDAO.findCartsByUserId(userId);
     }
+
+    public List<Cart> getOrdersByUserIdAndStatus(Integer userId, Integer status) {
+        return cartDAO.findCartsByUserIdAndStatus(userId, status);
+    }
+
+    public java.util.Map<String, Long> getOrderCountsByStatus(Integer userId) {
+        return cartDAO.countOrdersByStatus(userId);
+    }
 }

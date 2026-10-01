@@ -275,8 +275,28 @@ public class CartController_24110240 extends HttpServlet {
             return;
         }
 
-        List<Cart> orders = cartService.getOrdersByUserId(currentUser.getUserId());
+        String statusParam = req.getParameter("status");
+        Integer filterStatus = null;
+        if (statusParam != null && !statusParam.trim().isEmpty() && !"all".equalsIgnoreCase(statusParam.trim())) {
+            try {
+                filterStatus = Integer.parseInt(statusParam.trim());
+            } catch (NumberFormatException ignored) {}
+        }
+
+        List<Cart> orders;
+        if (filterStatus != null) {
+            orders = cartService.getOrdersByUserIdAndStatus(currentUser.getUserId(), filterStatus);
+        } else {
+            orders = cartService.getOrdersByUserId(currentUser.getUserId());
+        }
+
+        java.util.Map<String, Long> counts = cartService.getOrderCountsByStatus(currentUser.getUserId());
+        long totalOrders = counts.values().stream().mapToLong(Long::longValue).sum();
+
         req.setAttribute("orders", orders);
+        req.setAttribute("counts", counts);
+        req.setAttribute("totalOrders", totalOrders);
+        req.setAttribute("currentStatus", filterStatus != null ? String.valueOf(filterStatus) : "all");
         req.setAttribute("pageTitle", "Lịch Sử Đơn Hàng Của Bạn");
         req.getRequestDispatcher("/WEB-INF/views/user/orders.jsp").forward(req, resp);
     }

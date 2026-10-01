@@ -147,25 +147,57 @@ public class Cart implements Serializable {
         return String.format(java.util.Locale.US, "%,d", getTotalAmountLong()).replace(',', '.');
     }
 
+    public static final int STATUS_NEW = 0;         // Đơn hàng mới
+    public static final int STATUS_CONFIRMED = 1;   // Đã xác nhận
+    public static final int STATUS_PREPARING = 2;   // Chuẩn bị hàng
+    public static final int STATUS_SHIPPING = 3;    // Vận chuyển
+    public static final int STATUS_DELIVERING = 4;  // Giao hàng
+    public static final int STATUS_DELIVERED = 5;   // Đã giao
+    public static final int STATUS_CANCELLED = 6;   // Đơn hàng hủy
+    public static final int STATUS_RETURNED = 7;    // Đơn hàng hoàn
+
     public String getStatusText() {
-        if (status == null) return "Chờ xử lý";
+        if (status == null) return "Đơn hàng mới";
         switch (status) {
-            case 0: return "Chờ xác nhận COD";
-            case 1: return "Đang giao hàng (COD)";
-            case 2: return "Giao thành công & Đã thanh toán";
-            case -1: return "Đã hủy đơn";
-            default: return "Đang xử lý";
+            case 0: return "Đơn hàng mới";
+            case 1: return "Đã xác nhận";
+            case 2: return "Chuẩn bị hàng";
+            case 3: return "Vận chuyển";
+            case 4: return "Giao hàng";
+            case 5: return "Đã giao";
+            case 6: return "Đơn hàng hủy";
+            case 7: return "Đơn hàng hoàn";
+            default: return "Đơn hàng mới";
         }
     }
 
     public String getStatusBadgeClass() {
-        if (status == null) return "bg-secondary";
+        if (status == null) return "bg-info text-dark";
         switch (status) {
-            case 0: return "bg-warning text-dark";
+            case 0: return "bg-info text-dark";
             case 1: return "bg-primary";
-            case 2: return "bg-success";
-            case -1: return "bg-danger";
-            default: return "bg-info text-dark";
+            case 2: return "bg-warning text-dark";
+            case 3: return "bg-secondary";
+            case 4: return "bg-primary-subtle text-primary border border-primary";
+            case 5: return "bg-success";
+            case 6: return "bg-danger";
+            case 7: return "bg-dark";
+            default: return "bg-secondary";
+        }
+    }
+
+    public String getStatusIconClass() {
+        if (status == null) return "fa-solid fa-file-lines";
+        switch (status) {
+            case 0: return "fa-solid fa-file-circle-plus";
+            case 1: return "fa-solid fa-clipboard-check";
+            case 2: return "fa-solid fa-boxes-packing";
+            case 3: return "fa-solid fa-truck-moving";
+            case 4: return "fa-solid fa-motorcycle";
+            case 5: return "fa-solid fa-circle-check";
+            case 6: return "fa-solid fa-ban";
+            case 7: return "fa-solid fa-rotate-left";
+            default: return "fa-solid fa-clock";
         }
     }
 }
