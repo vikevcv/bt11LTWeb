@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>HCMUTE DTQT05 Web Application</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- Filter 1: Mã hóa ký tự UTF-8 cho toàn bộ Request & Response -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>vn.edu.hcmute.filter.EncodingFilter_24110240</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Filter 2: Phân quyền truy cập các khu vực Admin và Seller -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>vn.edu.hcmute.filter.AuthFilter_24110240</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/seller/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Filter 3: SiteMesh Decorators cho 02 vai trò User & Admin (Yêu cầu Câu 1) -->
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+        <init-param>
+            <param-name>configFile</param-name>
+            <param-value>/WEB-INF/sitemesh.xml</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+</web-app>

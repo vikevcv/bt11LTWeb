@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Cấu hình SiteMesh 3 Decorators cho 02 vai trò: User và Admin -->
+<sitemesh>
+    <!-- 1. Layout Decorator dành cho Quản trị viên (Admin) -->
+    <mapping path="/admin/*" decorator="admin.jsp" />
+    <mapping path="/WEB-INF/views/admin/*" decorator="admin.jsp" />
+
+    <!-- 2. Layout Decorator mặc định dành cho Khách hàng & Người bán (User / Seller) -->
+    <mapping path="/*" decorator="user.jsp" />
+
+    <!-- Loại trừ các file tĩnh hoặc trang không cần bọc decorator -->
+    <mapping path="/static/*" exclude="true" />
+    <mapping path="/WEB-INF/decorators/*" exclude="true" />
+</sitemesh>
